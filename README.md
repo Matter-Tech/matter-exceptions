@@ -1,10 +1,5 @@
 # matter-exceptions
 
-[![PyPI - Version](https://img.shields.io/pypi/v/matter-exceptions.svg)](https://pypi.org/project/matter-exceptions)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/matter-exceptions.svg)](https://pypi.org/project/matter-exceptions)
-
------
-
 **Table of Contents**
 
 - [Installation](#installation)
@@ -16,6 +11,20 @@
 pip install matter-exceptions
 ```
 
-## License
+## Contributing
 
-`matter-exceptions` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+Install hatch in your system
+
+```https://hatch.pypa.io/latest/install/```
+
+Create the environment
+
+```console
+hatch env create
+```
+
+Do you changes... then run the tests
+
+```console
+hatch run test:pytest
+```
