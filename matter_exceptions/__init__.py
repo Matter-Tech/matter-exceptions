@@ -4,13 +4,12 @@ from http.client import HTTPException
 
 
 class BaseAPIException(HTTPException):
-    def __init__(self, description, payload=None, type=None):
+    def __init__(self, description, payload: dict=None, type=None):
         HTTPException.__init__(self, description)
 
+        self.data = {}
         if payload:
-            self.data = payload
-        else:
-            self.data = {}
+            self.data.update(payload)
 
         self.data["type"] = type
         self.data["message"] = description
