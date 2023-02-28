@@ -1,0 +1,44 @@
+name: Test suite
+
+on: push
+
+jobs:
+  strategy:
+    matrix:
+      os: [ ubuntu-latest, windows-latest, macos-latest ]
+      python-version: [ "3.10", "3.11" ]
+
+  setup:
+    runs-on: ${{ matrix.os }}
+    name: Execute the tests
+
+    steps:
+
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install Hatch
+        run: pip install --upgrade hatch
+
+  run-tests:
+    name: Unit tests
+    needs: setup
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Running tests
+        run: hatch run test:pytest
