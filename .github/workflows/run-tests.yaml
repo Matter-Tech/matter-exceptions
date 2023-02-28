@@ -10,10 +10,9 @@ jobs:
 
   setup:
     runs-on: ${{ matrix.os }}
-    name: Execute the tests
+    name: Configure environment
 
     steps:
-
       - name: Code checkout
         uses: actions/checkout@v3
 
@@ -27,7 +26,7 @@ jobs:
         run: pip install --upgrade hatch
 
   run-tests:
-    name: Unit tests
+    name: Tests
     needs: setup
     runs-on: ${{ matrix.os }}
 
