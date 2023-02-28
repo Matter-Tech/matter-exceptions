@@ -4,7 +4,7 @@ from http.client import HTTPException
 
 
 class BaseAPIException(HTTPException):
-    def __init__(self, description, payload: dict=None, type=None):
+    def __init__(self, description, payload: dict | None = None, type: str | None = None):
         HTTPException.__init__(self, description)
 
         self.data = {}

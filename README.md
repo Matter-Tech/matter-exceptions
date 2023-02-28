@@ -33,7 +33,7 @@ Do your changes...
 ### Run the tests
 
 ```console
-hatch run test:pytest
+hatch run test:test
 ```
 
 The command above will run the tests against all supported python versions

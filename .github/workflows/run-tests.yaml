@@ -15,15 +15,15 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v3
 
-      - name: Install Hatch
-        run: pip install --upgrade hatch
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
           cache-dependency-path: pyproject.toml
+
+      - name: Install Hatch
+        run: pip install --upgrade hatch
 
   run-tests:
     name: Tests
@@ -46,4 +46,7 @@ jobs:
           cache-dependency-path: pyproject.toml
 
       - name: Running tests
-        run: hatch run cov
+        run: hatch run test
+
+      - name: Lint
+        run: hatch run lint
