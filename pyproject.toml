@@ -34,7 +34,7 @@ dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=matter_exceptions --cov=tests {args}"
+cov = "pytest  -W error --cov-report=term-missing --cov-config=pyproject.toml --cov=matter_exceptions --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 format = "black {args} ."
 
@@ -54,12 +54,14 @@ omit = [
     "matter_exceptions/__about__.py",
 ]
 
+
 [tool.coverage.report]
 exclude_lines = [
     "no cov",
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
+fail_under=95
 
 [build-system]
 requires = ["hatchling"]
