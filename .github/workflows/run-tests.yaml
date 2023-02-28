@@ -49,4 +49,4 @@ jobs:
         run: pip install --upgrade hatch
 
       - name: Running tests
-        run: hatch run test.py${{ matrix.python-version }}:pytest
+        run: hatch run cov
