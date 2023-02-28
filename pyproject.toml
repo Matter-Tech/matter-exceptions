@@ -36,9 +36,16 @@ dependencies = [
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=matter_exceptions --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
+format = "black {args} ."
+
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.10", "3.11"]
+
+[tool.black]
+target-version = ["py310"]
+line-length = 120
+
 
 [tool.coverage.run]
 branch = true

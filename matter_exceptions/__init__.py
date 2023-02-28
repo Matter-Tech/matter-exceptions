@@ -26,7 +26,10 @@ class DetailedException(Exception):
         self.type = self.TOPIC.replace(" ", "_").lower()
 
     def __reduce__(self):
-        return type(self), (self.message, self.data, )
+        return type(self), (
+            self.message,
+            self.data,
+        )
 
 
 class AuthenticationFailedError(DetailedException):
