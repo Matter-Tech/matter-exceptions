@@ -26,7 +26,7 @@ Source = "https://github.com/Matter/matter-exceptions"
 [tool.hatch.version]
 path = "matter_exceptions/__about__.py"
 
-[tool.hatch.envs.test]
+[tool.hatch.envs.default]
 dependencies = [
     "pytest",
     "pytest-cov",
