@@ -19,7 +19,7 @@ def test_detailed_exception_happy_path():
     assert e.message == "ugly Error"
 
 
-def test_detailed_exception_convertes_topic_to_lower_camel_case():
+def test_detailed_exception_converts_topic_to_lower_camel_case():
     e = DetailedException(message="an error")
     assert e.type == DetailedException.TOPIC.lower().replace(" ", "_")
 
