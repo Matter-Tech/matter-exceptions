@@ -21,6 +21,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
           cache-dependency-path: pyproject.toml
+
       - name: Install Hatch
         run: pip install --upgrade hatch
 
@@ -44,5 +45,8 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
+      - name: Install Hatch
+        run: pip install --upgrade hatch
+
       - name: Running tests
-        run: hatch run test:pytest
+        run: hatch run test.py${{ matrix.python-version }}:pytest

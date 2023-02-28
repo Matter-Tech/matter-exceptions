@@ -38,7 +38,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=matter
 no-cov = "cov --no-cov {args}"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["310", "311"]
+python = ["3.10", "3.11"]
 
 [tool.coverage.run]
 branch = true
