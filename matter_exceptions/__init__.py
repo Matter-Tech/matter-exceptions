@@ -20,8 +20,8 @@ class BaseAPIException(HTTPException):
 class DetailedException(Exception):
     TOPIC = "Error"
 
-    def __init__(self, message, data=None):
-        self.message = f"{self.TOPIC}: {message}" if not self.TOPIC in message else message
+    def __init__(self, message: str, data=None):
+        self.message = message if self.TOPIC in message else f"{self.TOPIC}: {message}"
         self.data = data
         self.type = self.TOPIC.replace(" ", "_").lower()
 
