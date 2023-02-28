@@ -5,7 +5,7 @@ from http.client import HTTPException
 
 class BaseAPIException(HTTPException):
     def __init__(self, description, payload: dict | None = None, type: str | None = None):
-        HTTPException.__init__(self, description)
+        super().__init__(description)
 
         self.data = {}
         if payload:
@@ -25,10 +25,13 @@ class DetailedException(Exception):
         self.type = self.TOPIC.replace(" ", "_").lower()
 
     def __reduce__(self):
-        return type(self), (
+        return self.__class__, (
             self.message,
             self.data,
         )
+
+    def __eq__(self, other):
+        return other.__reduce__() == self.__reduce__()
 
 
 class AuthenticationFailedError(DetailedException):
