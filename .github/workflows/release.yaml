@@ -1,0 +1,26 @@
+name: Prepare Release
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to base the release from'
+        required: true
+        default: ''
+      major:
+        description: 'Major release? (yes/no)'
+        required: true
+        default: 'no'
+      prerelease:
+        description: 'Prerelease (ex: rc1). Leave empty if not a pre-release.'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v3
