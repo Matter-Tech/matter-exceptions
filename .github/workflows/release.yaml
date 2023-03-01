@@ -35,14 +35,15 @@ jobs:
 
     - name: Getting current version
       id: current-version
-      run:  echo "version=`hatch version`" >> $GITHUB_OUTPUT
+      run:
+        echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
     - name: Bumping version
       if: github.event.inputs.release-type == 'major' || github.event.inputs.release-type == 'minor' || github.event.inputs.release-type == 'fix'
       id: bumped-version
       run: | 
         hatch version ${{github.event.inputs.release-type}}
-       echo "version=`hatch version`" >> $GITHUB_OUTPUT
+        echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
     - name: Creating PR with new version
       run: gh pr create --title "Preparing release to ${{ steps.bumped-version.outputs.version }}"
