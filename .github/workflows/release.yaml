@@ -47,4 +47,6 @@ jobs:
         echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
     - name: Creating PR with new version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: gh pr create --title "Preparing release to ${{ steps.bumped-version.outputs.version }}"
