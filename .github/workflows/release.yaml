@@ -49,4 +49,5 @@ jobs:
     - name: Creating PR with new version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh pr create --title "Preparing release to ${{ steps.bumped-version.outputs.version }}"
+      run: gh pr create --title "Bumping version to ${{ steps.bumped-version.outputs.version }}" \
+                        --body "Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}"
