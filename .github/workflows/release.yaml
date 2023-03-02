@@ -76,4 +76,4 @@ jobs:
         PR_BODY: "Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}"
         PR_TITLE: "Bumping version to ${{ steps.bumped-version.outputs.version }}"
       run:
-        gh pr create --title $PR_TITLE --body $PR_BODY
+        gh pr create --title "$PR_TITLE" --body "$PR_BODY"
