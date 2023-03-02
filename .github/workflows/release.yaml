@@ -2,25 +2,84 @@ name: Prepare Release
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to base the release from'
+      release-type:
+        description: 'Release type? (major/minor/fix)'
         required: true
-        default: ''
-      major:
-        description: 'Major release? (yes/no)'
-        required: true
-        default: 'no'
-      prerelease:
-        description: 'Prerelease (ex: rc1). Leave empty if not a pre-release.'
-        required: false
         default: ''
 
+
 jobs:
-  build:
+  release-version:
+    if: github.event.inputs.release-type == 'major' || github.event.inputs.release-type == 'minor' || github.event.inputs.release-type == 'fix'
+
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v3
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+        cache: pip
+        cache-dependency-path: pyproject.toml
+
+    - name: Installing Hatch
+      run: pip install --upgrade hatch
+
+    - name: Getting current version
+      id: current-version
+      run: |
+        echo "version=`hatch version`" >> $GITHUB_OUTPUT
+
+    - name: Bumping version
+      id: bumped-version
+      run: |
+        hatch version ${{github.event.inputs.release-type}}
+        echo "version=`hatch version`" >> $GITHUB_OUTPUT
+
+    - name: Configuring git user
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
+    - name: Configuring the branch for the release
+      id: configuring-branch
+      env:
+        BRANCH_NAME: release-${{ steps.bumped-version.outputs.version }}
+      run: |
+        git checkout -b $BRANCH_NAME
+        echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+    - name: Committing
+      run: |
+        git commit -am "Bumping to ${{ steps.bumped-version.outputs.version }}"
+
+    - name: Tagging and Pushing
+      env:
+        TAG_NUMBER: ${{ steps.bumped-version.outputs.version }}
+        BRANCH_NAME:  ${{ steps.configuring-branch.outputs.branch }}
+      run: |
+        git tag -a $TAG_NUMBER -m $TAG_NUMBER
+        git push --set-upstream origin $BRANCH_NAME --follow-tags
+
+    - name: Building package
+      run: |
+        hatch build -t wheel
+
+    - name: Creating release
+      env:
+        TAG_NUMBER: ${{ steps.bumped-version.outputs.version }}
+      run: |
+        gh release create --verify-tag $TAG_NUMBER dist/*
+
+    - name: Creating PR with new version
+      env:
+        PR_BODY: "Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}"
+        PR_TITLE: "Bumping version to ${{ steps.bumped-version.outputs.version }}"
+      run:
+        gh pr create --title "$PR_TITLE" --body "$PR_BODY"
