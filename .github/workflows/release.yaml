@@ -11,7 +11,8 @@ on:
 jobs:
   release-version:
     if: github.event.inputs.release-type == 'major' || github.event.inputs.release-type == 'minor' || github.event.inputs.release-type == 'fix'
-
+    env:
+      BRANCH_NAME: release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,10 +38,9 @@ jobs:
 
     - name: Configuring the branch for the release
       id: configuring-branch
-      env:
-        BRANCH_NAME: release-${{ steps.current-version.outputs.version }}
+
       run: |
-        git checkout -b $BRANCH_NAME | awk -F . '{ print $1"."$2".x"}'`
+        git checkout -b $BRANCH_NAME
         echo "branch=$BRANCH_NAME >> $GITHUB_OUTPUT
 
     - name: Bumping version
@@ -63,7 +63,6 @@ jobs:
     - name: Building package
       run: |
         hatch build -t wheel
-
 
     - name: Creating PR with new version
       env:
