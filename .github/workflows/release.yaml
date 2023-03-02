@@ -41,6 +41,11 @@ jobs:
         hatch version ${{github.event.inputs.release-type}}
         echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
+    - name: Configuring git user
+      run: |
+          git config user.name "Releasinator"
+          git config user.email "<>"
+
     - name: Configuring the branch for the release
       id: configuring-branch
       env:
