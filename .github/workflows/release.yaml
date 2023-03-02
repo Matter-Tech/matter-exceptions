@@ -44,10 +44,10 @@ jobs:
     - name: Configuring the branch for the release
       id: configuring-branch
       env:
-        BRANCH_NAME: ${{ steps.bumped-version.outputs.version }}
+        BRANCH_NAME: release-${{ steps.bumped-version.outputs.version }}
       run: |
         git checkout -b $BRANCH_NAME
-        echo "branch=$BRANCH_NAME >> $GITHUB_OUTPUT
+        echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
     - name: Committing
       run: |
