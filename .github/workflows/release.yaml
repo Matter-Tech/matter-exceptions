@@ -16,7 +16,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v3
 
@@ -78,7 +79,6 @@ jobs:
 
     - name: Creating PR with new version
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_BODY: "Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}"
         PR_TITLE: "Bumping version to ${{ steps.bumped-version.outputs.version }}"
       run:
