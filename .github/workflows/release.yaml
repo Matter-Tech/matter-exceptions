@@ -64,7 +64,7 @@ jobs:
         BRANCH_NAME:  ${{ steps.configuring-branch.outputs.branch }}
       run: |
         git tag -a $TAG_NUMBER -m $TAG_NUMBER
-        git push --set-upstream origin $BRANCH_NAME
+        git push --set-upstream origin $BRANCH_NAME --follow-tags
 
     - name: Building package
       run: |
