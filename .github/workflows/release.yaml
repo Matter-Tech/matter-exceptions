@@ -61,7 +61,7 @@ jobs:
     - name: Tagging and Pushing
       env:
         TAG_NUMBER: ${{ steps.bumped-version.outputs.version }}
-        BRANCH_NAME:  $${{ steps.configuring-branch.outputs.branch }}
+        BRANCH_NAME:  ${{ steps.configuring-branch.outputs.branch }}
       run: |
         git tag -a $TAG_NUMBER -m $TAG_NUMBER
         git push --set-upstream origin $BRANCH_NAME
