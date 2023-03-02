@@ -2,10 +2,6 @@ name: Prepare Release
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to base the release from'
-        required: true
-        default: ''
       release-type:
         description: 'Release type? (major/minor/fix)'
         required: true
@@ -13,7 +9,9 @@ on:
 
 
 jobs:
-  build:
+  release-version:
+    if: github.event.inputs.release-type == 'major' || github.event.inputs.release-type == 'minor' || github.event.inputs.release-type == 'fix'
+
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,8 +19,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.inputs.branch }}
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v4
@@ -36,18 +32,43 @@ jobs:
 
     - name: Getting current version
       id: current-version
-      run:
+      run: |
         echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
+    - name: Configuring the branch for the release
+      id: configuring-branch
+      env:
+        BRANCH_NAME = release-${{ steps.current-version.outputs.version }}
+      run: |
+        git checkout -b $BRANCH_NAME | awk -F . '{ print $1"."$2".x"}'`
+        echo "branch=$BRANCH_NAME >> $GITHUB_OUTPUT
+
     - name: Bumping version
-      if: github.event.inputs.release-type == 'major' || github.event.inputs.release-type == 'minor' || github.event.inputs.release-type == 'fix'
       id: bumped-version
       run: | 
         hatch version ${{github.event.inputs.release-type}}
         echo "version=`hatch version`" >> $GITHUB_OUTPUT
 
+    - name: Committing
+      run: |
+        git commit -am "Bumping to ${{ steps.bumped-version.outputs.version }}"
+
+    - name: Tagging and Pushing
+      env:
+        TAG_NUMBER: ${{ steps.bumped-version.outputs.version }}
+      run: |
+        git tag -a $TAG_NUMBER -m $TAG_NUMBER
+        git push
+
+    - name: Building package
+      run: |
+        hatch build -t wheel
+
+
     - name: Creating PR with new version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_BODY: Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}
+        PR_TITLE: Bumping version to ${{ steps.bumped-version.outputs.version }}
       run:
-        gh pr create --title "Bumping version to ${{ steps.bumped-version.outputs.version }}" --body "Preparing release from ${{ steps.current-version.outputs.version }} to ${{ steps.bumped-version.outputs.version }}" --head ${{ github.event.inputs.branch }}
+        gh pr create --title $PR_TITLE --body $PR_BODY
