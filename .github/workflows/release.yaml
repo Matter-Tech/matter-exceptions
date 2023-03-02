@@ -75,7 +75,7 @@ jobs:
       env:
         TAG_NUMBER: ${{ steps.bumped-version.outputs.version }}
       run: |
-        gh release create --verify-tag v$TAG_NUMBER dist/*
+        gh release create --verify-tag $TAG_NUMBER dist/*
 
     - name: Creating PR with new version
       env:
