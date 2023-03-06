@@ -3,11 +3,7 @@ name: Code Lint
 on: push
 
 jobs:
-  run-tests:
+  code-lint:
+
+    name: Code lint
     uses: Matter-Tech/matter-actions/.github/workflows/lint.yml@v0
-
-    name: Checking the code
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Code Lint
