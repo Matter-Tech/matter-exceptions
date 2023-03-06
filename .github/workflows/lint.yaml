@@ -4,6 +4,4 @@ on: push
 
 jobs:
   code-lint:
-
-    name: Code lint
     uses: Matter-Tech/matter-actions/.github/workflows/lint.yml@v0
