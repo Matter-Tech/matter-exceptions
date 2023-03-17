@@ -2,14 +2,13 @@ import json
 from typing import Any
 from abc import ABC, abstractmethod
 
-from http.client import HTTPException
+from fastapi import HTTPException
 
 
-class BaseAPIException(HTTPException, ABC):
+class BaseFastAPIException(HTTPException, ABC):
     def __init__(self, description, detail: Any = None):
         self.description = description
-        self.detail = detail
-        super().__init__()
+        super().__init__(detail=detail, status_code=self.STATUS_CODE)
 
     def __init_subclass__(cls, **kwargs):
         for required in ('STATUS_CODE',):
@@ -20,9 +19,8 @@ class BaseAPIException(HTTPException, ABC):
     def as_json(self):
         return json.dumps(
             {
-                "status_code": self.STATUS_CODE,
+                "status_code": self.status_code,
                 "description": self.description,
                 "detail": self.detail,
             }
         )
-

@@ -15,9 +15,7 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = [
-    "fastapi>=0.88.0,<=0.94.1",
-]
+dependencies = []
 dynamic = ["version"]
 
 [project.urls]
@@ -25,6 +23,10 @@ Documentation = "https://github.com/Matter/matter-exceptions#readme"
 Issues = "https://github.com/Matter/matter-exceptions/issues"
 Source = "https://github.com/Matter/matter-exceptions"
 
+[project.optional-dependencies]
+fastapi = [
+    "fastapi>=0.88.0,<=0.94.1",
+]
 
 [tool.hatch.version]
 path = "matter_exceptions/__about__.py"
