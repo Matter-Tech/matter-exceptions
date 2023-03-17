@@ -13,7 +13,7 @@ def test_base_api_exception_should_not_override_payload():
 
 def test_base_api_exception_base_case():
     e = ConflictError(description="a test")
-    assert e.detail== None
+    assert e.detail is None
     assert e.as_json() == '{"status_code": 409, "description": "a test", "detail": null}'
 
 
@@ -25,13 +25,13 @@ def test_base_fastapi_exception_should_not_override_payload():
 
 def test_base_fastapi_exception_base_case():
     e = NotFoundError(description="a test")
-    assert e.detail== "Not Found"
+    assert e.detail == "Not Found"
     assert e.as_json() == '{"status_code": 404, "description": "a test", "detail": "Not Found"}'
 
 
 def test_detailed_exception_happy_path():
     e = AuthenticationFailedError(description="ugly Error")
-    assert e.detail == None
+    assert e.detail is None
     assert e.type == "authentication_failed_error"
     assert e.description == "Authentication Failed Error: ugly Error"
 
