@@ -33,6 +33,7 @@ path = "matter_exceptions/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
+    "matter-exceptions[fastapi]",
     "pytest",
     "pytest-cov",
     "black",
