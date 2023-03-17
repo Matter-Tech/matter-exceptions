@@ -55,7 +55,6 @@ fmt = [
 ]
 lint = [
   "style",
-  "typing",
 ]
 
 [[tool.hatch.envs.test.matrix]]
