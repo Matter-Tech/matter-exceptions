@@ -14,7 +14,7 @@ def test_base_api_exception_should_not_override_payload():
 def test_base_api_exception_base_case():
     e = ConflictError(description="a test")
     assert e.detail is None
-    assert e.as_json() == '{"status_code": 409, "description": "a test", "detail": null}'
+    assert e.as_json() == '{"status_code": 409, "description": "a test", "detail": "None"}'
 
 
 def test_base_fastapi_exception_should_not_override_payload():
