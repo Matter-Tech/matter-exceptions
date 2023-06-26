@@ -25,7 +25,7 @@ Source = "https://github.com/Matter/matter-exceptions"
 
 [project.optional-dependencies]
 fastapi = [
-    "fastapi>=0.88.0,<=0.95.2",
+    "fastapi>=0.88.0,<=0.98.0",
 ]
 
 [tool.hatch.version]
