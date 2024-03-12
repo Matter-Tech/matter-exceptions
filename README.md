@@ -30,6 +30,16 @@ With FastAPI Support:
 pip install matter-exceptions[fastapi]
 ```
 
+With Sentry Support:
+```console
+pip install matter-exceptions[sentry]
+```
+
+With FastAPI and Sentry Support:
+```console
+pip install matter-exceptions[fastapi,sentry]
+```
+
 
 ## Getting Started
 Raise an API Exception:

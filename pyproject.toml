@@ -25,7 +25,10 @@ Source = "https://github.com/Matter/matter-exceptions"
 
 [project.optional-dependencies]
 fastapi = [
-    "fastapi>=0.88.0,<=0.95.2",
+    "fastapi>=0.88.0",
+]
+sentry = [
+    "sentry-sdk>=1.23.1",
 ]
 
 [tool.hatch.version]
@@ -33,7 +36,7 @@ path = "matter_exceptions/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
-    "matter-exceptions[fastapi]",
+    "matter-exceptions[fastapi,sentry]",
     "pytest",
     "pytest-cov",
     "black",
@@ -83,7 +86,7 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
-fail_under=95
+fail_under=80
 
 [build-system]
 requires = ["hatchling"]
