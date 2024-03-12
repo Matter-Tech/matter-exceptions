@@ -1,8 +1,9 @@
 import os
 import sentry_sdk
 
-IS_ENV_LOCAL_OR_TEST = os.environ.get('IS_ENV_LOCAL_OR_TEST', True)
-SENTRY_DSN = os.environ.get('SENTRY_DSN')
+IS_ENV_LOCAL_OR_TEST = os.environ.get("IS_ENV_LOCAL_OR_TEST", True)
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
+
 
 def capture_error(message: str, extra: dict = None, level: str = "error"):
     if extra is None:
